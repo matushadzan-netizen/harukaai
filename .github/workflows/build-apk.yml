@@ -22,16 +22,18 @@ jobs:
           java-version: '17'
 
       - name: Install Android SDK components
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
 
       - name: Install NDK and CMake
         run: sdkmanager "platforms;android-34" "build-tools;34.0.0" "ndk;26.3.11579264" "cmake;3.22.1"
 
-      - name: Fetch llama.cpp source (pinned for legacy llava API)
+      - name: Fetch llama.cpp source
         run: |
           git clone --depth 1 --branch b4510 https://github.com/ggerganov/llama.cpp.git app/src/main/cpp/llama.cpp
 
-      - name: Build debug APK
+      - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.7'
